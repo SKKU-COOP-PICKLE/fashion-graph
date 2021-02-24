@@ -28,11 +28,11 @@ class GraphRecommender(GraphBase):
         # make questions for recommendation
         questions = list(product([query_index], range(len(features))))
         # predict
-        predictions = super().predict_no_adj(questions=questions, features=features)
-        # sort by the prediction score (desc)
-        predictions = sorted(predictions, key=lambda x: x[1], reverse=True)[:topk]
-        
-        return predictions
+        scores = np.array(super().predict_no_adj(questions=questions, features=features))
+        # argsort the prediction score (desc)
+        topk_indexes = scores.argsort()[::-1][:topk]
+
+        return [(index, score) for index, score in zip(topk_indexes, scores[topk_indexes])]
         
     def predict(self, query_index: int, adj: np.ndarray, features: np.ndarray, k: int, topk: int = 10) -> List[Tuple[int, float]]:
         """
@@ -54,8 +54,8 @@ class GraphRecommender(GraphBase):
         # make questions for recommendation
         questions = list(product([query_index], range(len(features))))
         # predict
-        predictions = super().predict(questions=questions, adj=adj, features=features, k=k)
-        # sort by the prediction score (desc)
-        predictions = sorted(predictions, key=lambda x: x[1], reverse=True)[:topk]
+        scores = np.array(super().predict(questions=questions, adj=adj, features=features, k=k))
+        # argsort the prediction score (desc)
+        topk_indexes = scores.argsort()[::-1][:topk]
         
-        return predictions
+        return [(index, score) for index, score in zip(topk_indexes, scores[topk_indexes])]

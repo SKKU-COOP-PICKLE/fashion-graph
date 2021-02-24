@@ -55,14 +55,14 @@ class GraphBase(object):
         self.session = tf.Session()
         self.saver.restore(self.session, model_path)
 
-    def predict_no_adj(self, questions: List[Tuple[int, int]], features: np.ndarray) -> List[Tuple[int, float]]:
+    def predict_no_adj(self, questions: List[Tuple[int, int]], features: np.ndarray) -> List[float]:
         """
         Predict compatibilities without adjacency matrix
         
         :param questions: The pairs of indexes that want to predict compatibilities
         :param features: The `np.ndarray` feature vector array of items. The size of feature vector must be same as model's `input_dim`
         
-        return: The `list` of `tuple(item index, score)`
+        return: The score list
         """
         assert features.shape[1] == self.model.input_dim
 
@@ -75,14 +75,11 @@ class GraphBase(object):
         feed_dict = construct_feed_dict(self.placeholders, features, get_norm_supports(adj, self.degree),
                                         [], query_r, query_c, 0., is_train=False)
 
-        output = self.session.run(tf.nn.sigmoid(self.model.outputs), feed_dict=feed_dict)
+        scores = self.session.run(tf.nn.sigmoid(self.model.outputs), feed_dict=feed_dict)
 
-        query_indexes = [query_c[index] for index in output]
-        scores = output[query_indexes]
+        return [float(score) for score in scores]
 
-        return [(index, score) for index, score in zip(query_indexes, scores)]
-
-    def predict(self, questions: List[Tuple[str, str]], adj: np.ndarray, features: np.ndarray, k: int) -> List[Tuple[int, float]]:
+    def predict(self, questions: List[Tuple[str, str]], adj: np.ndarray, features: np.ndarray, k: int) -> List[float]:
         """
         Predict compatibilities with adjacency matrix
         
@@ -91,7 +88,7 @@ class GraphBase(object):
         :param features: The `np.ndarray` feature vector array of items. The size of feature vector must be same as model's `input_dim`
         :param k: Maximum number of graph neighbors to search (BFS)
         
-        return: The `list` of `tuple(item index, score)`
+        return: The score list
         """
         assert adj.shape[0] == features.shape[0], \
             "the length of adjacency matrix should be same with the length of features"
@@ -123,12 +120,9 @@ class GraphBase(object):
         feed_dict = construct_feed_dict(self.placeholders, features, get_norm_supports(adj, self.degree),
                                         [], query_r, query_c, 0., is_train=False)
 
-        output = self.session.run(tf.nn.sigmoid(self.model.outputs), feed_dict=feed_dict)
+        scores = self.session.run(tf.nn.sigmoid(self.model.outputs), feed_dict=feed_dict)
 
-        query_indexes = [query_c[index] for index in output]
-        scores = output[query_indexes]
-
-        return [(index, float(score)) for index, score in zip(query_indexes, scores)]
+        return [float(score) for score in scores]
 
     def build_adj(self, relations: List[Tuple[int, int]]):
         """

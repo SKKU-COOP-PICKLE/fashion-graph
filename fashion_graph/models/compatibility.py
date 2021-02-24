@@ -28,7 +28,7 @@ class GraphCompat(GraphBase):
         # predict
         predictions = super().predict_no_adj(questions=questions, features=features)
         # prediction score
-        score = np.mean([pred[1] for pred in predictions])
+        score = np.mean(predictions)
         return score
 
     def predict(self, query_index: int, adj: np.ndarray, features: np.ndarray, k: int) -> float:
@@ -52,5 +52,5 @@ class GraphCompat(GraphBase):
         # predict
         predictions = super().predict(questions=questions, adj=adj, features=features, k=k)
         # prediction score
-        score = np.mean([pred[1] for pred in predictions])
+        score = np.mean(predictions)
         return score
