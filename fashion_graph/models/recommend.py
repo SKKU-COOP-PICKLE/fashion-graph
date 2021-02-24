@@ -11,7 +11,7 @@ class GraphRecommender(GraphBase):
     """
     Recommend items
     """
-    def __init__(self, model_dir: str, model_config: object):
+    def __init__(self, model_dir: str, model_config: object = None):
         """
         :param model_dir: The directory path of saved `visual-compatibility` model.
             (It must have `best_epoch.ckpt` and `results.json`)
