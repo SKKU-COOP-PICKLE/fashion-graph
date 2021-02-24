@@ -11,7 +11,7 @@ Two methods are possible
 
 ## Train model
 
-Check `visual-compatibility`
+Check `visual-compatibility/`
 
 ## Setup
 > Python 3.7
@@ -47,7 +47,7 @@ recommender = GraphRecommender(model_dir)
 recommender.predict(query_index, adj, features, k, topk)
 
 # if you don't have any graph information, use predict_no_adj
-recommender.predict(query_index, features, topk)
+recommender.predict_no_adj(query_index, features, topk)
 ```
 
 ### Calculate Compatibility
