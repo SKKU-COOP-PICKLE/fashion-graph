@@ -37,10 +37,11 @@ class FeatureExtractor:
         image = img_as_ubyte(image)
         return image
 
-    def get_feature(self, image):
+    def get_feature(self, image: np.ndarray):
         """
         Image must be tensor or np.ndarray
         """
+        self.preprocess(image)
         image = self.transform(image)
         image = image.unsqueeze_(0)
         image = image.to(self.device)
