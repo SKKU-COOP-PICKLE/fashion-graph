@@ -20,7 +20,7 @@ Check `visual-compatibility/`
 
 ## Usage
 
-You should have trained model
+You should have trained model.
 
 ### Extract image features
 
@@ -61,3 +61,7 @@ compat.predict(adj, features, k, topk)
 # if you don't have any graph information, use predict_no_adj
 compat.predict_no_adj(features, topk)
 ```
+
+## Example
+
+    python example.py --k K --topk TOPK --image_path IMAGE_PATH
