@@ -11,8 +11,13 @@ class GraphRecommender(GraphBase):
     """
     Recommend items
     """
-    def __init__(self, model_dir: str):
-        super().__init__(model_dir)
+    def __init__(self, model_dir: str, model_config: object):
+        """
+        :param model_dir: The directory path of saved `visual-compatibility` model.
+            (It must have `best_epoch.ckpt` and `results.json`)
+        :param model_config: tf.ConfigProto()
+        """
+        super().__init__(model_dir, model_config)
 
     def predict_no_adj(self, query_index: int, features: np.ndarray, topk: int = 10, filter_indexes: List[int] = []) -> List[Tuple[int, float]]:
         """

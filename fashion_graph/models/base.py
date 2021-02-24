@@ -19,10 +19,11 @@ def get_norm_supports(adj, degree):
 
 
 class GraphBase(object):
-    def __init__(self, model_dir: str):
+    def __init__(self, model_dir: str, model_config: object):
         """
         :param model_dir: The directory path of saved `visual-compatibility` model.
-            It must have `best_epoch.ckpt` and `results.json`)
+            (It must have `best_epoch.ckpt` and `results.json`)
+        :param model_config: tf.ConfigProto()
         """
         # visual-compatibility model
         model_path = f"{model_dir}/best_epoch.ckpt"
@@ -52,7 +53,7 @@ class GraphBase(object):
             logging=False,
             batch_norm=config['batch_norm'])
         self.saver = tf.train.Saver()
-        self.session = tf.Session()
+        self.session = tf.Session(config=model_config)
         self.saver.restore(self.session, model_path)
 
     def predict_no_adj(self, questions: List[Tuple[int, int]], features: np.ndarray) -> List[float]:

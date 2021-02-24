@@ -11,8 +11,13 @@ class GraphCompat(GraphBase):
     """
     Calculate compatibilities of items
     """
-    def __init__(self, model_dir: str):
-        super().__init__(model_dir)
+    def __init__(self, model_dir: str, model_config: object):
+        """
+        :param model_dir: The directory path of saved `visual-compatibility` model.
+            (It must have `best_epoch.ckpt` and `results.json`)
+        :param model_config: tf.ConfigProto()
+        """
+        super().__init__(model_dir, model_config)
 
     def predict_no_adj(self, features: np.ndarray) -> float:
         """
