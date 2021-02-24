@@ -1,6 +1,6 @@
 # fashion-graph
 
-Recommends best fashion items by calculating fashion compatibility.
+Recommends best fashion items by calculating fashion compatibility or Calculates fashion compatibility of input items.
 Based on GCN(Graph Convolutional Network) model in [visual-compatibility](https://github.com/gcucurull/visual-compatibility).
 
 Two methods are possible
