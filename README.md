@@ -44,10 +44,10 @@ adj = (GraphRecommender, GraphCompat).build_adj(relations)
 from fashion_graph import GraphRecommender
 
 recommender = GraphRecommender(model_dir)
-recommender.predict(query_index, adj, features, k, topk)
+recommender.predict(query_index, adj, features, k, topk, filter_indexes)
 
 # if you don't have any graph information, use predict_no_adj
-recommender.predict_no_adj(query_index, features, topk)
+recommender.predict_no_adj(query_index, features, topk, filter_indexes)
 ```
 
 ### Calculate Compatibility
